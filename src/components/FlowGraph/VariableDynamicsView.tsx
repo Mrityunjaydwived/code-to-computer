@@ -117,9 +117,9 @@ export const VariableDynamicsView: React.FC = () => {
   return (
     <div className="bg-white rounded-xl border border-[#E0E0E0] shadow-xs p-3.5 flex flex-col gap-4">
       {/* Section Header */}
-      <div className="flex items-center justify-between pb-3 border-b border-[#F0F0F0]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#F0F0F0]">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-[#E8F0FE] text-[#2874F0] flex items-center justify-center font-bold">
+          <div className="w-7 h-7 rounded-lg bg-[#E8F0FE] text-[#2874F0] flex items-center justify-center font-bold shrink-0">
             <TrendingUp className="w-4 h-4" />
           </div>
           <div>
@@ -130,7 +130,7 @@ export const VariableDynamicsView: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5 text-[10px] text-[#666666]">
+        <div className="flex items-center gap-1.5 text-[10px] text-[#666666] shrink-0">
           <Clock className="w-3.5 h-3.5 text-[#2874F0]" />
           <span>Step {currentStepIndex + 1} of {snapshots.length}</span>
         </div>
@@ -138,7 +138,7 @@ export const VariableDynamicsView: React.FC = () => {
 
       {/* 1. Time-Series Line & Area Chart */}
       <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#E8EEF5]">
-        <div className="flex items-center justify-between mb-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
           <div className="flex items-center gap-1.5 text-xs font-bold text-[#212121]">
             <Activity className="w-3.5 h-3.5 text-[#2874F0]" />
             <span>Time-Series Trajectory Plot</span>
@@ -169,7 +169,7 @@ export const VariableDynamicsView: React.FC = () => {
         </div>
 
         {/* SVG Time-Series Chart */}
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto touch-pan-x">
           <svg
             viewBox={`0 0 ${chartWidth} ${chartHeight}`}
             className="w-full h-48 select-none cursor-crosshair"

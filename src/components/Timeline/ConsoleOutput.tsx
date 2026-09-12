@@ -32,15 +32,15 @@ export const ConsoleOutput: React.FC = () => {
   return (
     <div className="bg-white border border-[#E0E0E0] rounded-xl p-3 shadow-xs flex flex-col gap-2 font-mono text-xs">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#E0E0E0] pb-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-[#E0E0E0] pb-2">
         <div className="flex items-center gap-2">
-          <Terminal className="w-4 h-4 text-[#388E3C]" />
+          <Terminal className="w-4 h-4 text-[#388E3C] shrink-0" />
           <h3 className="font-bold text-[#212121] text-xs uppercase tracking-wider">
             {isCpython ? 'CPython 3 (Wasm) Output Console' : 'Standard Output Console (STDOUT)'}
           </h3>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           {isCpython && wasmDurationMs > 0 && (
             <span className="text-[10px] px-2 py-0.5 rounded bg-[#E8F0FE] text-[#1967D2] font-semibold flex items-center gap-1">
               <Clock className="w-3 h-3" />

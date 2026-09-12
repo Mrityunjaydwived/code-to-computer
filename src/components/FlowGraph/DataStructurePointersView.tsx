@@ -121,9 +121,9 @@ export const DataStructurePointersView: React.FC = () => {
   return (
     <div className="bg-white rounded-xl border border-[#E0E0E0] shadow-xs p-3.5 flex flex-col gap-4">
       {/* Header */}
-      <div className="flex items-center justify-between pb-3 border-b border-[#F0F0F0]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#F0F0F0]">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-[#E8F0FE] text-[#2874F0] flex items-center justify-center font-bold">
+          <div className="w-7 h-7 rounded-lg bg-[#E8F0FE] text-[#2874F0] flex items-center justify-center font-bold shrink-0">
             <Database className="w-4 h-4" />
           </div>
           <div>
@@ -135,7 +135,7 @@ export const DataStructurePointersView: React.FC = () => {
         </div>
 
         {pointers.length > 0 && (
-          <div className="flex items-center gap-1.5 flex-wrap">
+          <div className="flex items-center gap-1.5 flex-wrap shrink-0">
             {pointers.map((p) => (
               <span
                 key={p.name}
@@ -150,7 +150,7 @@ export const DataStructurePointersView: React.FC = () => {
       </div>
 
       {/* Main Array Visualization Canvas */}
-      <div className="bg-[#F8FAFC] p-4 rounded-xl border border-[#E8EEF5] overflow-x-auto">
+      <div className="bg-[#F8FAFC] p-4 rounded-xl border border-[#E8EEF5] overflow-x-auto touch-pan-x">
         <div className="min-w-[500px] flex flex-col items-center">
           {/* Pointers Top Row */}
           <div className="flex items-end gap-2.5 pb-2 min-h-[36px]">

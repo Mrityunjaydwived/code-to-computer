@@ -21,15 +21,15 @@ export const LandingHero: React.FC<LandingHeroProps> = ({ onDismiss }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm overflow-y-auto p-4 md:p-8 flex flex-col items-center justify-center font-sans animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm overflow-y-auto p-3 sm:p-6 md:p-8 flex flex-col items-center justify-center font-sans animate-in fade-in duration-200">
       {/* Modal Card */}
-      <div className="bg-white border border-[#E0E0E0] rounded-2xl p-6 sm:p-10 shadow-2xl relative max-w-4xl w-full text-center space-y-8 my-auto">
+      <div className="bg-white border border-[#E0E0E0] rounded-2xl p-4 sm:p-8 md:p-10 shadow-2xl relative max-w-4xl w-full text-center space-y-4 sm:space-y-8 my-auto">
         {/* Close button */}
         <button
           onClick={onDismiss}
-          className="absolute top-5 right-5 p-2 rounded-xl bg-[#F1F3F6] border border-[#E0E0E0] text-[#666666] hover:text-[#212121] hover:bg-[#E0E0E0] transition-colors"
+          className="absolute top-3 sm:top-5 right-3 sm:right-5 p-1.5 sm:p-2 rounded-xl bg-[#F1F3F6] border border-[#E0E0E0] text-[#666666] hover:text-[#212121] hover:bg-[#E0E0E0] transition-colors"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
         {/* Badge */}
@@ -39,11 +39,11 @@ export const LandingHero: React.FC<LandingHeroProps> = ({ onDismiss }) => {
         </div>
 
         {/* Hero Title */}
-        <div className="space-y-3">
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-[#212121]">
+        <div className="space-y-2 sm:space-y-3">
+          <h1 className="text-2xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-[#212121]">
             CODE → COMPUTER
           </h1>
-          <p className="text-lg sm:text-xl text-[#666666] font-medium max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-lg md:text-xl text-[#666666] font-medium max-w-2xl mx-auto leading-relaxed">
             Write Code. See What The Computer <span className="text-[#2874F0] font-semibold underline decoration-[#2874F0]/40">Actually Does</span>.
           </p>
           <p className="text-xs sm:text-sm text-[#878787] max-w-xl mx-auto">

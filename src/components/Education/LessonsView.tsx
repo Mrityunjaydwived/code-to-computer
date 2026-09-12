@@ -46,7 +46,7 @@ export const LessonsView: React.FC = () => {
         </div>
 
         {/* Lesson Selector */}
-        <div className="flex items-center gap-1.5 overflow-x-auto text-xs font-mono">
+        <div className="flex items-center gap-1.5 overflow-x-auto touch-pan-x max-w-full text-xs font-mono pb-1">
           {LESSONS.map((l) => (
             <button
               key={l.id}

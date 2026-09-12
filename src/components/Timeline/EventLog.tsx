@@ -53,7 +53,7 @@ export const EventLog: React.FC = () => {
           </span>
         </div>
 
-        <div className="flex items-center gap-1 overflow-x-auto text-[10px]">
+        <div className="flex items-center gap-1 overflow-x-auto touch-pan-x max-w-full text-[10px] pb-1">
           {subsystems.map((sub) => (
             <button
               key={sub}

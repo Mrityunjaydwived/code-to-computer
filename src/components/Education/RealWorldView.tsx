@@ -42,7 +42,7 @@ export const RealWorldView: React.FC = () => {
         </div>
 
         {/* Scenario Toggle */}
-        <div className="flex items-center bg-[#F1F3F6] border border-[#E0E0E0] rounded-lg p-0.5 text-xs font-mono">
+        <div className="flex items-center bg-[#F1F3F6] border border-[#E0E0E0] rounded-lg p-0.5 text-xs font-mono overflow-x-auto touch-pan-x max-w-full">
           <button
             onClick={() => setSelectedRealWorldScenario('app')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded transition-colors ${

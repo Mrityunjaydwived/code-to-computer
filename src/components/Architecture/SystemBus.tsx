@@ -9,22 +9,23 @@ export const SystemBus: React.FC = () => {
 
   return (
     <div className="bg-white border border-[#E0E0E0] rounded-xl p-3.5 shadow-sm flex flex-col gap-2 font-sans">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
         <div className="flex items-center gap-1.5">
-          <Zap className="w-4 h-4 text-[#F09120]" />
+          <Zap className="w-4 h-4 text-[#F09120] shrink-0" />
           <span className="text-[11px] font-bold text-[#212121] uppercase tracking-wider font-mono">
             System Bus Interconnect (Data & Address Flow)
           </span>
         </div>
         {busActivity?.active && (
-          <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#FFF8E1] text-[#F09120] border border-[#F09120]/30 animate-pulse">
+          <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#FFF8E1] text-[#F09120] border border-[#F09120]/30 animate-pulse shrink-0">
             Active: {busActivity.label}
           </span>
         )}
       </div>
 
       {/* Visual Interconnect Pipeline */}
-      <div className="grid grid-cols-5 gap-2 items-center text-center font-mono text-[11px]">
+      <div className="w-full overflow-x-auto touch-pan-x pb-1">
+        <div className="min-w-[420px] md:min-w-0 grid grid-cols-5 gap-2 items-center text-center font-mono text-[11px]">
         {/* Unit 1: Registers / ALU */}
         <div
           className={`p-2.5 rounded-lg border transition-all ${
@@ -83,6 +84,7 @@ export const SystemBus: React.FC = () => {
           <span className="block font-bold">RAM (Virtual)</span>
           <span className="text-[9px] text-[#878787]">100 cycles</span>
         </div>
+      </div>
       </div>
     </div>
   );

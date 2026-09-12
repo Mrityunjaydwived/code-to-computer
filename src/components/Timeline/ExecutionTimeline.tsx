@@ -10,22 +10,22 @@ export const ExecutionTimeline: React.FC = () => {
   const totalSteps = snapshots.length;
 
   return (
-    <div className="bg-white border-t border-[#E0E0E0] px-4 py-2.5 flex flex-col gap-1.5 font-mono select-none shadow-sm">
+    <div className="bg-white border-t border-[#E0E0E0] px-3 sm:px-4 py-2 sm:py-2.5 flex flex-col gap-1.5 font-mono select-none shadow-sm">
       {/* Timeline Controls & Label */}
-      <div className="flex items-center justify-between text-xs">
-        <div className="flex items-center gap-2">
-          <Clock className="w-3.5 h-3.5 text-[#2874F0]" />
-          <span className="font-bold text-[#212121] uppercase text-[11px] tracking-wider">
-            Execution Timeline (Time-Travel)
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs">
+        <div className="flex items-center gap-2 flex-wrap">
+          <Clock className="w-3.5 h-3.5 text-[#2874F0] shrink-0" />
+          <span className="font-bold text-[#212121] uppercase text-[10px] sm:text-[11px] tracking-wider">
+            Execution Timeline
           </span>
-          <span className="text-[10px] px-2 py-0.2 rounded bg-[#E8F0FE] text-[#2874F0] border border-[#B3D4FC] font-bold">
+          <span className="text-[10px] px-2 py-0.2 rounded bg-[#E8F0FE] text-[#2874F0] border border-[#B3D4FC] font-bold shrink-0">
             Step {currentStepIndex} / {totalSteps - 1}
           </span>
         </div>
 
-        <div className="text-[11px] text-[#666666] flex items-center gap-2">
-          <span className="text-[#878787]">Active Instruction:</span>
-          <span className="text-[#2874F0] font-bold">
+        <div className="text-[10px] sm:text-[11px] text-[#666666] flex items-center gap-1.5 truncate">
+          <span className="text-[#878787] shrink-0">Instruction:</span>
+          <span className="text-[#2874F0] font-bold truncate">
             {snapshots[currentStepIndex]?.instruction?.assembly || 'Program Init'}
           </span>
         </div>
@@ -44,7 +44,7 @@ export const ExecutionTimeline: React.FC = () => {
       </div>
 
       {/* Step Event Mini-Pills */}
-      <div className="flex items-center gap-1 overflow-x-auto py-1">
+      <div className="flex items-center gap-1 overflow-x-auto touch-pan-x py-1">
         {snapshots.slice(0, 30).map((snap, idx) => {
           const isCurrent = idx === currentStepIndex;
           const opcode = snap.instruction?.opcode || 'INIT';

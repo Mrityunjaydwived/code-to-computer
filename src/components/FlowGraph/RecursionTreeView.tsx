@@ -140,9 +140,9 @@ export const RecursionTreeView: React.FC = () => {
   return (
     <div className="bg-white rounded-xl border border-[#E0E0E0] shadow-xs p-3.5 flex flex-col gap-4">
       {/* Header */}
-      <div className="flex items-center justify-between pb-3 border-b border-[#F0F0F0]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#F0F0F0]">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-[#E8F0FE] text-[#2874F0] flex items-center justify-center font-bold">
+          <div className="w-7 h-7 rounded-lg bg-[#E8F0FE] text-[#2874F0] flex items-center justify-center font-bold shrink-0">
             <GitFork className="w-4 h-4" />
           </div>
           <div>
@@ -154,7 +154,7 @@ export const RecursionTreeView: React.FC = () => {
         </div>
 
         {isRecursive && (
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#E8F0FE] text-[#2874F0]">
+          <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#E8F0FE] text-[#2874F0] shrink-0">
             Max Call Depth: {maxDepth}
           </span>
         )}
@@ -163,10 +163,10 @@ export const RecursionTreeView: React.FC = () => {
       {!isRecursive ? (
         <div className="bg-[#F8FAFC] rounded-xl border border-dashed border-[#CBD5E1] p-6 text-center flex flex-col items-center justify-center gap-3">
           <div className="w-12 h-12 rounded-full bg-[#E8F0FE] text-[#2874F0] flex items-center justify-center">
-            <Sparkles className="w-6 h-6" />
+            <GitFork className="w-6 h-6" />
           </div>
           <div>
-            <h4 className="text-sm font-bold text-[#212121]">No Recursive Functions Detected</h4>
+            <span className="font-bold text-[#212121] text-sm block">Non-Recursive Execution Detected</span>
             <p className="text-xs text-[#666666] max-w-md mt-1">
               Your current program runs sequentially in the main scope. To visualize recursive call trees and stack unwinding, try running a recursive algorithm like Fibonacci!
             </p>
@@ -180,7 +180,7 @@ export const RecursionTreeView: React.FC = () => {
           </button>
         </div>
       ) : (
-        <div className="bg-[#F8FAFC] rounded-xl border border-[#E8EEF5] p-4 overflow-x-auto min-h-[300px] flex items-center justify-center">
+        <div className="bg-[#F8FAFC] rounded-xl border border-[#E8EEF5] p-4 overflow-x-auto touch-pan-x min-h-[300px] flex items-center justify-center">
           <svg width="600" height={Math.max(260, (maxDepth + 1) * 75)} className="select-none">
             {/* Draw Edges */}
             {treeEdges.map((edge, idx) => {

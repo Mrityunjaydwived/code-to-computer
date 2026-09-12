@@ -47,7 +47,7 @@ export const GateModeView: React.FC = () => {
         </div>
 
         {/* Problem Selector */}
-        <div className="flex items-center gap-1.5 overflow-x-auto text-xs font-mono">
+        <div className="flex items-center gap-1.5 overflow-x-auto touch-pan-x max-w-full text-xs font-mono pb-1">
           {GATE_PROBLEMS.map((p) => (
             <button
               key={p.id}

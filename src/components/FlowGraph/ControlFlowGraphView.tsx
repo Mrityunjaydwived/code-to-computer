@@ -165,9 +165,9 @@ export const ControlFlowGraphView: React.FC = () => {
   return (
     <div className="bg-white rounded-xl border border-[#E0E0E0] shadow-xs p-3.5 flex flex-col h-full overflow-hidden">
       {/* Header Info */}
-      <div className="flex items-center justify-between pb-3 border-b border-[#F0F0F0] shrink-0">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#F0F0F0] shrink-0">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-[#E8F0FE] text-[#2874F0] flex items-center justify-center font-bold">
+          <div className="w-7 h-7 rounded-lg bg-[#E8F0FE] text-[#2874F0] flex items-center justify-center font-bold shrink-0">
             <GitBranch className="w-4 h-4" />
           </div>
           <div>
@@ -178,7 +178,7 @@ export const ControlFlowGraphView: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#E8F0FE] text-[#2874F0]">
             <span className="w-2 h-2 rounded-full bg-[#2874F0] animate-ping" />
             Active Line: {activeLine > 0 ? `#${activeLine}` : 'None'}
@@ -187,7 +187,7 @@ export const ControlFlowGraphView: React.FC = () => {
       </div>
 
       {/* SVG Canvas Area */}
-      <div className="flex-1 overflow-auto mt-2 bg-[#F8FAFC] rounded-lg border border-[#E8EEF5] p-3 relative">
+      <div className="flex-1 overflow-auto touch-pan-x touch-pan-y max-w-full mt-2 bg-[#F8FAFC] rounded-lg border border-[#E8EEF5] p-3 relative">
         <svg
           width={Math.max(520, totalWidth)}
           height={Math.max(480, totalHeight)}
@@ -431,8 +431,8 @@ export const ControlFlowGraphView: React.FC = () => {
       </div>
 
       {/* Footer Legend */}
-      <div className="flex items-center justify-between pt-2.5 mt-2 border-t border-[#F0F0F0] text-[10px] text-[#666666] shrink-0">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pt-2.5 mt-2 border-t border-[#F0F0F0] text-[10px] text-[#666666] shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           <span className="flex items-center gap-1">
             <span className="w-2.5 h-2.5 rounded-full bg-[#F8D706] border border-[#D97706]" /> Active Step
           </span>
@@ -443,7 +443,7 @@ export const ControlFlowGraphView: React.FC = () => {
             <span className="w-2.5 h-2.5 rounded-full bg-[#FF9F00]" /> Loop Transition
           </span>
         </div>
-        <span className="text-[10px] text-[#878787]">Click any node to jump execution</span>
+        <span className="text-[9px] sm:text-[10px] text-[#878787]">Click any node to jump execution</span>
       </div>
     </div>
   );

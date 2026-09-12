@@ -73,7 +73,7 @@ export const CommandPalette: React.FC = () => {
   );
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-start justify-center pt-24 p-4 animate-in fade-in duration-150 font-sans">
+    <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-start justify-center pt-12 sm:pt-24 p-2 sm:p-4 animate-in fade-in duration-150 font-sans">
       <div className="w-full max-w-xl bg-white border border-[#E0E0E0] rounded-xl shadow-2xl overflow-hidden">
         {/* Search Bar */}
         <div className="p-3 border-b border-[#E0E0E0] flex items-center gap-3 bg-white">
@@ -95,7 +95,7 @@ export const CommandPalette: React.FC = () => {
         </div>
 
         {/* Results List */}
-        <div className="max-h-80 overflow-y-auto p-2 space-y-1 bg-white">
+        <div className="max-h-[60dvh] sm:max-h-80 overflow-y-auto p-2 space-y-1 bg-white">
           {filtered.length === 0 ? (
             <div className="p-4 text-center text-xs text-[#878787]">No matching commands found.</div>
           ) : (

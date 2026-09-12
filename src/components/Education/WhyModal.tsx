@@ -12,8 +12,8 @@ export const WhyModal: React.FC = () => {
   const currentInst = currentSnapshot?.instruction;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150 font-sans">
-      <div className="w-full max-w-xl bg-white border border-[#E0E0E0] rounded-2xl shadow-2xl overflow-hidden font-sans">
+    <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4 animate-in fade-in duration-150 font-sans">
+      <div className="w-full max-w-xl max-h-[90dvh] flex flex-col bg-white border border-[#E0E0E0] rounded-2xl shadow-2xl overflow-hidden font-sans">
         {/* Modal Header */}
         <div className="px-4 py-3 bg-[#2874F0] text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -78,7 +78,7 @@ export const WhyModal: React.FC = () => {
         </div>
 
         {/* Modal Body */}
-        <div className="p-4 space-y-4 text-xs">
+        <div className="p-4 space-y-4 text-xs overflow-y-auto flex-1">
           {/* Why Summary Card */}
           <div className="p-3.5 rounded-xl bg-[#FFF8E1] border border-[#F09120]/30 flex items-start gap-2.5">
             <Sparkles className="w-4 h-4 text-[#F09120] shrink-0 mt-0.5" />

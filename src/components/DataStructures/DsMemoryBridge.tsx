@@ -175,7 +175,7 @@ export const DsMemoryBridge: React.FC = () => {
         </div>
 
         {/* Data Structure Selector */}
-        <div className="flex items-center bg-[#F1F3F6] border border-[#E0E0E0] rounded-lg p-0.5 text-xs font-mono">
+        <div className="flex items-center bg-[#F1F3F6] border border-[#E0E0E0] rounded-lg p-0.5 text-xs font-mono overflow-x-auto touch-pan-x max-w-full">
           {(Object.keys(presets) as DsKind[]).map((k) => (
             <button
               key={k}

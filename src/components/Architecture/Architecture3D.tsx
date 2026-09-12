@@ -189,9 +189,36 @@ export const Architecture3D: React.FC = () => {
       camera.position.z = Math.max(12, Math.min(45, camera.position.z + e.deltaY * 0.02));
     };
 
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        isDragging = true;
+        prevMouseX = e.touches[0].clientX;
+        prevMouseY = e.touches[0].clientY;
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (!isDragging || e.touches.length !== 1) return;
+      const deltaX = e.touches[0].clientX - prevMouseX;
+      const deltaY = e.touches[0].clientY - prevMouseY;
+
+      rotY += deltaX * 0.008;
+      rotX = Math.max(0.1, Math.min(1.2, rotX + deltaY * 0.008));
+
+      prevMouseX = e.touches[0].clientX;
+      prevMouseY = e.touches[0].clientY;
+    };
+
+    const onTouchEnd = () => {
+      isDragging = false;
+    };
+
     renderer.domElement.addEventListener('mousedown', onMouseDown);
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseup', onMouseUp);
+    renderer.domElement.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+    window.addEventListener('touchend', onTouchEnd);
     renderer.domElement.addEventListener('wheel', onWheel, { passive: false });
 
     // Animation Loop
@@ -236,6 +263,9 @@ export const Architecture3D: React.FC = () => {
       renderer.domElement.removeEventListener('mousedown', onMouseDown);
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', onMouseUp);
+      renderer.domElement.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchend', onTouchEnd);
       renderer.domElement.removeEventListener('wheel', onWheel);
       window.removeEventListener('resize', handleResize);
       renderer.dispose();
@@ -245,25 +275,25 @@ export const Architecture3D: React.FC = () => {
   return (
     <div className="flex flex-col h-full bg-white border border-[#E0E0E0] rounded-xl overflow-hidden shadow-sm relative font-sans">
       {/* 3D Viewport Controls Overlay */}
-      <div className="absolute top-3 left-3 z-10 flex items-center gap-2 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-[#E0E0E0] text-xs font-mono text-[#212121] shadow-xs">
-        <Rotate3d className="w-4 h-4 text-[#2874F0]" />
-        <span className="font-bold">3D Silicon Architecture View</span>
-        <span className="text-[10px] text-[#878787] hidden sm:inline">| Drag to rotate • Scroll to zoom</span>
+      <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 sm:gap-2 bg-white/90 backdrop-blur-md px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border border-[#E0E0E0] text-[11px] sm:text-xs font-mono text-[#212121] shadow-xs">
+        <Rotate3d className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#2874F0]" />
+        <span className="font-bold">3D Silicon <span className="hidden xs:inline">Architecture</span></span>
+        <span className="text-[10px] text-[#878787] hidden md:inline">| Drag/touch to rotate • Scroll to zoom</span>
       </div>
 
       {/* Component Quick Legend */}
-      <div className="absolute top-3 right-3 z-10 flex items-center gap-2 text-xs font-mono">
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-white/95 border border-[#E0E0E0] text-[#2874F0] font-bold shadow-xs">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#2874F0] inline-block shadow-xs" />
-          <span>CPU Core</span>
+      <div className="absolute bottom-12 right-3 sm:top-3 sm:bottom-auto sm:right-3 z-10 flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-mono">
+        <div className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded bg-white/95 border border-[#E0E0E0] text-[#2874F0] font-bold shadow-xs">
+          <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#2874F0] inline-block shadow-xs" />
+          <span>CPU</span>
         </div>
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-white/95 border border-[#E0E0E0] text-[#388E3C] font-bold shadow-xs">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#388E3C] inline-block shadow-xs" />
-          <span>L1/L2 Cache</span>
+        <div className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded bg-white/95 border border-[#E0E0E0] text-[#388E3C] font-bold shadow-xs">
+          <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#388E3C] inline-block shadow-xs" />
+          <span>Cache</span>
         </div>
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-white/95 border border-[#E0E0E0] text-[#F09120] font-bold shadow-xs">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#FF9F00] inline-block shadow-xs" />
-          <span>Bus Packets</span>
+        <div className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded bg-white/95 border border-[#E0E0E0] text-[#F09120] font-bold shadow-xs">
+          <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#FF9F00] inline-block shadow-xs" />
+          <span>Bus</span>
         </div>
       </div>
 
@@ -271,15 +301,15 @@ export const Architecture3D: React.FC = () => {
       <div ref={containerRef} className="w-full h-full min-h-[420px] cursor-grab active:cursor-grabbing bg-[#F1F3F6]" />
 
       {/* Bottom Live Hardware Bus Telemetry */}
-      <div className="h-10 bg-white border-t border-[#E0E0E0] px-4 flex items-center justify-between text-xs font-mono">
-        <div className="flex items-center gap-2 text-[#666666]">
+      <div className="h-auto sm:h-10 py-2 sm:py-0 bg-white border-t border-[#E0E0E0] px-3 sm:px-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1 text-[10px] sm:text-xs font-mono">
+        <div className="flex items-center gap-2 text-[#666666] flex-wrap">
           <span className="w-2 h-2 rounded-full bg-[#388E3C] animate-ping" />
-          <span>Clock Frequency: 3.8 GHz</span>
+          <span>Clock: 3.8 GHz</span>
           <span className="text-[#BDBDBD]">•</span>
-          <span>Silicon Node: 4nm FinFET</span>
+          <span>4nm FinFET</span>
         </div>
         <div className="text-[#2874F0] font-bold">
-          {busActivity?.active ? `Bus Traffic: ${busActivity.label}` : 'Bus Idle: Ready'}
+          {busActivity?.active ? `Bus: ${busActivity.label}` : 'Bus Idle: Ready'}
         </div>
       </div>
     </div>

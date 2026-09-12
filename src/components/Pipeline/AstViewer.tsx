@@ -133,7 +133,7 @@ export const AstViewer: React.FC = () => {
       </div>
 
       {/* Tree Visualization Container */}
-      <div className="max-h-72 overflow-y-auto p-3 bg-[#FAFAFA] border border-[#E0E0E0] rounded-xl shadow-inner">
+      <div className="max-h-72 overflow-auto touch-pan-x p-3 bg-[#FAFAFA] border border-[#E0E0E0] rounded-xl shadow-inner">
         <TreeNode
           node={ast}
           onSelect={(n) => setSelectedNode(n)}

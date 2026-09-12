@@ -33,7 +33,7 @@ export const CpuVisualizer: React.FC = () => {
         </div>
 
         {/* 5-Stage Instruction Cycle Badges */}
-        <div className="flex items-center gap-1 bg-[#F1F3F6] p-1 rounded-lg border border-[#E0E0E0]">
+        <div className="flex items-center gap-1 bg-[#F1F3F6] p-1 rounded-lg border border-[#E0E0E0] max-w-full overflow-x-auto touch-pan-x py-1">
           {cycleStages.map((stage, idx) => {
             const isActive = stage === activeStage && status !== 'idle';
             return (

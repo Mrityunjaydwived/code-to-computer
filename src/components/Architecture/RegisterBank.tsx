@@ -59,7 +59,7 @@ export const RegisterBank: React.FC = () => {
   return (
     <div className="bg-white border border-[#E0E0E0] rounded-xl p-3 shadow-sm flex flex-col gap-3 font-sans">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#E0E0E0] pb-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E0E0E0] pb-2">
         <div className="flex items-center gap-2">
           <Database className="w-4 h-4 text-[#2874F0]" />
           <h2 className="text-xs font-bold text-[#212121] uppercase tracking-wider">
@@ -71,7 +71,7 @@ export const RegisterBank: React.FC = () => {
         </div>
 
         {/* View Mode Toggle */}
-        <div className="flex items-center bg-[#F1F3F6] border border-[#E0E0E0] rounded-lg p-0.5 text-[11px] font-mono">
+        <div className="flex items-center bg-[#F1F3F6] border border-[#E0E0E0] rounded-lg p-0.5 text-[11px] font-mono shrink-0 self-start sm:self-auto">
           <button
             onClick={() => setViewFormat('dec')}
             className={`px-2 py-0.5 rounded transition-colors ${
@@ -124,7 +124,7 @@ export const RegisterBank: React.FC = () => {
                 <span className="text-[10px] text-[#878787]">{reg.role}</span>
               </div>
 
-              <div className="font-mono text-sm font-bold text-[#212121] truncate">
+              <div className="font-mono text-xs sm:text-sm font-bold text-[#212121] truncate">
                 {formatValue(currentVal)}
               </div>
 
@@ -170,9 +170,9 @@ export const RegisterBank: React.FC = () => {
       </div>
 
       {/* ALU Condition Flags */}
-      <div className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-[#F7F7F7] border border-[#E0E0E0] text-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 px-3 py-1.5 rounded-lg bg-[#F7F7F7] border border-[#E0E0E0] text-xs">
         <span className="text-[11px] font-bold text-[#666666]">FLAGS:</span>
-        <div className="flex items-center gap-3 font-mono text-[11px]">
+        <div className="flex items-center gap-2 sm:gap-3 font-mono text-[10px] sm:text-[11px] overflow-x-auto touch-pan-x">
           <div className="flex items-center gap-1">
             <span className="text-[#878787]">ZF:</span>
             <span
