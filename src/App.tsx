@@ -16,6 +16,11 @@ import {
   Maximize2,
   Minimize2,
   Workflow,
+  Play,
+  Pause,
+  RotateCcw,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { useExecutionStore, TabType, MobileView } from './store/executionStore';
 import { TopNavBar } from './components/Header/TopNavBar';
@@ -61,6 +66,9 @@ export const App: React.FC = () => {
     setEditorWidthPercent,
     mobileView,
     setMobileView,
+    snapshots,
+    currentStepIndex,
+    speed,
   } = useExecutionStore();
 
   const [showLanding, setShowLanding] = useState<boolean>(false);
@@ -172,7 +180,7 @@ export const App: React.FC = () => {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F1F3F6] text-[#212121] font-sans selection:bg-[#2874F0]/20 selection:text-[#2874F0]">
+    <div className="flex flex-col h-[100dvh] max-h-[100dvh] overflow-hidden bg-[#F1F3F6] text-[#212121] font-sans selection:bg-[#2874F0]/20 selection:text-[#2874F0]">
       {/* Landing Page Hero Tour (Optional Overlay) */}
       {showLanding && <LandingHero onDismiss={() => setShowLanding(false)} />}
 
@@ -184,47 +192,8 @@ export const App: React.FC = () => {
       {/* Top Navigation Bar */}
       <TopNavBar />
 
-      {/* Mobile-Only Segment Switcher Bar (screens < 768px) */}
-      <div className="md:hidden flex items-center justify-around bg-white border-b border-[#E0E0E0] px-2 py-1.5 shrink-0 z-20">
-        <button
-          onClick={() => setMobileView('editor')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-            mobileView === 'editor'
-              ? 'bg-[#2874F0] text-white shadow-xs'
-              : 'text-[#666666] hover:bg-[#F5F5F5]'
-          }`}
-        >
-          <FileCode className="w-3.5 h-3.5" />
-          <span>Code Editor</span>
-        </button>
-
-        <button
-          onClick={() => setMobileView('visualizer')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-            mobileView === 'visualizer'
-              ? 'bg-[#2874F0] text-white shadow-xs'
-              : 'text-[#666666] hover:bg-[#F5F5F5]'
-          }`}
-        >
-          <Cpu className="w-3.5 h-3.5" />
-          <span>Visualizer</span>
-        </button>
-
-        <button
-          onClick={() => setMobileView('telemetry')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-            mobileView === 'telemetry'
-              ? 'bg-[#2874F0] text-white shadow-xs'
-              : 'text-[#666666] hover:bg-[#F5F5F5]'
-          }`}
-        >
-          <Terminal className="w-3.5 h-3.5" />
-          <span>Console</span>
-        </button>
-      </div>
-
       {/* Main Workspace Layout */}
-      <div className="flex-1 flex flex-col md:flex-row overflow-hidden select-none">
+      <div className="flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden select-none">
         {/* Left Column: Code Editor */}
         <div
           style={{
@@ -232,7 +201,7 @@ export const App: React.FC = () => {
             flexBasis: isEditorCollapsed ? '0px' : `${editorWidthPercent}%`,
           }}
           className={`shrink-0 flex flex-col overflow-hidden transition-[width,flex-basis] duration-100 ease-out border-r border-[#E0E0E0] ${
-            mobileView === 'editor' ? 'flex h-[calc(100vh-170px)]' : 'hidden md:flex h-[calc(100vh-160px)]'
+            mobileView === 'editor' ? 'flex flex-1 h-full' : 'hidden md:flex h-full'
           }`}
         >
           {!isEditorCollapsed && <CodeEditor />}
@@ -251,22 +220,30 @@ export const App: React.FC = () => {
           <GripVertical className="w-3 h-3 text-[#666666] pointer-events-none" />
         </div>
 
-        {/* Right Column: Interactive Multi-Tab Visualizations */}
+        {/* Right Column: Multi-View Area (Visualizer, Flowgraph, Telemetry) */}
         <div
-          className={`flex-1 flex flex-col h-[calc(100vh-170px)] md:h-[calc(100vh-160px)] overflow-hidden bg-[#F1F3F6] ${
+          className={`flex-1 flex flex-col h-full overflow-hidden bg-[#F1F3F6] ${
             mobileView === 'editor' ? 'hidden md:flex' : 'flex'
           }`}
         >
           {/* Main Visualizer Navigation Tabs & Collapse Control */}
-          <div className="h-11 px-3 bg-white border-b border-[#E0E0E0] flex items-center justify-between gap-1 overflow-x-auto select-none shrink-0">
+          <div
+            className={`h-11 px-3 bg-white border-b border-[#E0E0E0] items-center justify-between gap-1 overflow-x-auto select-none shrink-0 scrollbar-none ${
+              mobileView === 'telemetry' ? 'hidden md:flex' : 'flex'
+            }`}
+          >
             <div className="flex items-center gap-1">
               {/* Desktop Editor Collapse / Expand Toggle */}
               <button
                 onClick={toggleEditorCollapse}
-                title={isEditorCollapsed ? "Expand Editor" : "Collapse Editor (Full Visualizer Mode)"}
+                title={isEditorCollapsed ? 'Expand Editor' : 'Collapse Editor (Full Visualizer Mode)'}
                 className="hidden md:flex items-center p-1.5 rounded-lg text-[#666666] hover:text-[#212121] hover:bg-[#F5F5F5] transition-colors shrink-0 mr-1"
               >
-                {isEditorCollapsed ? <Maximize2 className="w-3.5 h-3.5 text-[#2874F0]" /> : <Minimize2 className="w-3.5 h-3.5" />}
+                {isEditorCollapsed ? (
+                  <Maximize2 className="w-3.5 h-3.5 text-[#2874F0]" />
+                ) : (
+                  <Minimize2 className="w-3.5 h-3.5" />
+                )}
               </button>
 
               {tabs.map((tab) => {
@@ -277,9 +254,13 @@ export const App: React.FC = () => {
                     key={tab.id}
                     onClick={() => {
                       setActiveTab(tab.id);
-                      if (mobileView === 'telemetry') setMobileView('visualizer');
+                      if (tab.id === 'flowgraph') {
+                        setMobileView('flowgraph');
+                      } else {
+                        setMobileView('visualizer');
+                      }
                     }}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all whitespace-nowrap ${
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all whitespace-nowrap shrink-0 ${
                       isActive
                         ? 'bg-[#2874F0] text-white font-bold shadow-xs'
                         : 'text-[#666666] hover:text-[#212121] hover:bg-[#F5F5F5]'
@@ -302,7 +283,11 @@ export const App: React.FC = () => {
           </div>
 
           {/* Active Visualization Tab Container */}
-          <div className="flex-1 p-3 overflow-y-auto space-y-4">
+          <div
+            className={`flex-1 min-h-0 p-2 sm:p-3 overflow-y-auto space-y-4 ${
+              mobileView === 'telemetry' ? 'hidden md:block' : 'block'
+            }`}
+          >
             {/* Tab 1: CPU Architecture */}
             {activeTab === 'architecture' && (
               <div className="space-y-4 animate-in fade-in duration-150">
@@ -375,13 +360,15 @@ export const App: React.FC = () => {
             )}
           </div>
 
-          {/* Collapsible Lower Dock: Console / Event Log / Telemetry */}
+          {/* Lower Dock: Console / Event Log / Telemetry */}
           <div
             className={`border-t border-[#E0E0E0] bg-white shrink-0 ${
-              mobileView === 'telemetry' ? 'h-full flex flex-col' : ''
+              mobileView === 'telemetry'
+                ? 'flex flex-col flex-1 h-full overflow-hidden'
+                : 'hidden md:block'
             }`}
           >
-            <div className="flex items-center justify-between px-3 h-8 bg-[#F7F7F7] border-b border-[#E0E0E0] text-xs font-mono">
+            <div className="flex items-center justify-between px-3 h-9 bg-[#F7F7F7] border-b border-[#E0E0E0] text-xs font-mono shrink-0">
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setBottomTab('console')}
@@ -425,7 +412,13 @@ export const App: React.FC = () => {
               </span>
             </div>
 
-            <div className="p-2.5 max-h-52 overflow-y-auto bg-[#F1F3F6]">
+            <div
+              className={`${
+                mobileView === 'telemetry'
+                  ? 'flex-1 overflow-y-auto p-3 bg-[#F1F3F6]'
+                  : 'p-2.5 max-h-52 overflow-y-auto bg-[#F1F3F6]'
+              }`}
+            >
               {bottomTab === 'console' && <ConsoleOutput />}
               {bottomTab === 'events' && <EventLog />}
               {bottomTab === 'metrics' && <MetricsDashboard />}
@@ -434,8 +427,140 @@ export const App: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom Master Execution Timeline Scrubber */}
-      <ExecutionTimeline />
+      {/* Desktop Master Execution Timeline Scrubber */}
+      <div className="hidden md:block shrink-0">
+        <ExecutionTimeline />
+      </div>
+
+      {/* Mobile Floating Action Player Bar (< 768px) */}
+      <div className="md:hidden flex items-center justify-between px-3 py-1.5 bg-white border-t border-[#E0E0E0] shadow-sm shrink-0 z-20">
+        <div className="flex items-center gap-1.5">
+          <div
+            className={`w-2 h-2 rounded-full ${
+              status === 'running'
+                ? 'bg-[#388E3C] animate-pulse'
+                : status === 'error'
+                ? 'bg-[#D32F2F]'
+                : 'bg-[#2874F0]'
+            }`}
+          />
+          <span className="font-mono text-xs font-bold text-[#212121]">
+            Step {snapshots.length > 0 ? currentStepIndex + 1 : 0}/{snapshots.length}
+          </span>
+          {status === 'running' && (
+            <span className="text-[10px] font-bold text-[#388E3C] uppercase bg-[#E8F5E9] px-1.5 py-0.5 rounded">
+              {speed}x
+            </span>
+          )}
+        </div>
+
+        <div className="flex items-center gap-1">
+          <button
+            onClick={reset}
+            className="p-1.5 rounded-lg text-[#666666] hover:text-[#212121] hover:bg-[#F5F5F5] active:scale-95 transition-transform"
+            title="Reset (R)"
+          >
+            <RotateCcw className="w-4 h-4" />
+          </button>
+
+          <button
+            onClick={stepBackward}
+            disabled={currentStepIndex <= 0}
+            className="p-1.5 rounded-lg text-[#666666] hover:text-[#212121] hover:bg-[#F5F5F5] disabled:opacity-30 active:scale-95 transition-transform"
+            title="Step Backward (Left Arrow)"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+
+          <button
+            onClick={status === 'running' ? pause : run}
+            className="px-3.5 py-1.5 rounded-lg bg-[#2874F0] hover:bg-[#1F74BA] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm active:scale-95 transition-all"
+            title={status === 'running' ? 'Pause' : 'Run Simulation'}
+          >
+            {status === 'running' ? (
+              <>
+                <Pause className="w-3.5 h-3.5 fill-white" />
+                <span>Pause</span>
+              </>
+            ) : (
+              <>
+                <Play className="w-3.5 h-3.5 fill-white" />
+                <span>Run</span>
+              </>
+            )}
+          </button>
+
+          <button
+            onClick={stepForward}
+            disabled={snapshots.length > 0 && currentStepIndex >= snapshots.length - 1}
+            className="p-1.5 rounded-lg text-[#666666] hover:text-[#212121] hover:bg-[#F5F5F5] disabled:opacity-30 active:scale-95 transition-transform"
+            title="Step Forward (Right Arrow)"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Bottom Navigation Bar (< 768px) */}
+      <nav className="md:hidden grid grid-cols-4 bg-white border-t border-[#E0E0E0] shrink-0 z-20 pb-[env(safe-area-inset-bottom,0px)]">
+        <button
+          onClick={() => setMobileView('editor')}
+          className={`flex flex-col items-center justify-center py-2 relative transition-colors ${
+            mobileView === 'editor' ? 'text-[#2874F0]' : 'text-[#666666] hover:text-[#212121]'
+          }`}
+        >
+          {mobileView === 'editor' && (
+            <span className="absolute top-0 left-1/4 right-1/4 h-0.5 bg-[#2874F0] rounded-full" />
+          )}
+          <FileCode className="w-4 h-4 mb-0.5" />
+          <span className={`text-[10px] ${mobileView === 'editor' ? 'font-bold' : 'font-medium'}`}>Code</span>
+        </button>
+
+        <button
+          onClick={() => {
+            setMobileView('visualizer');
+            if (activeTab === 'flowgraph') setActiveTab('architecture');
+          }}
+          className={`flex flex-col items-center justify-center py-2 relative transition-colors ${
+            mobileView === 'visualizer' ? 'text-[#2874F0]' : 'text-[#666666] hover:text-[#212121]'
+          }`}
+        >
+          {mobileView === 'visualizer' && (
+            <span className="absolute top-0 left-1/4 right-1/4 h-0.5 bg-[#2874F0] rounded-full" />
+          )}
+          <Cpu className="w-4 h-4 mb-0.5" />
+          <span className={`text-[10px] ${mobileView === 'visualizer' ? 'font-bold' : 'font-medium'}`}>Visuals</span>
+        </button>
+
+        <button
+          onClick={() => {
+            setMobileView('flowgraph');
+            setActiveTab('flowgraph');
+          }}
+          className={`flex flex-col items-center justify-center py-2 relative transition-colors ${
+            mobileView === 'flowgraph' ? 'text-[#2874F0]' : 'text-[#666666] hover:text-[#212121]'
+          }`}
+        >
+          {mobileView === 'flowgraph' && (
+            <span className="absolute top-0 left-1/4 right-1/4 h-0.5 bg-[#2874F0] rounded-full" />
+          )}
+          <Workflow className="w-4 h-4 mb-0.5" />
+          <span className={`text-[10px] ${mobileView === 'flowgraph' ? 'font-bold' : 'font-medium'}`}>Flow</span>
+        </button>
+
+        <button
+          onClick={() => setMobileView('telemetry')}
+          className={`flex flex-col items-center justify-center py-2 relative transition-colors ${
+            mobileView === 'telemetry' ? 'text-[#2874F0]' : 'text-[#666666] hover:text-[#212121]'
+          }`}
+        >
+          {mobileView === 'telemetry' && (
+            <span className="absolute top-0 left-1/4 right-1/4 h-0.5 bg-[#2874F0] rounded-full" />
+          )}
+          <Terminal className="w-4 h-4 mb-0.5" />
+          <span className={`text-[10px] ${mobileView === 'telemetry' ? 'font-bold' : 'font-medium'}`}>Console</span>
+        </button>
+      </nav>
     </div>
   );
 };

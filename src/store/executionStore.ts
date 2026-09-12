@@ -25,7 +25,7 @@ export type TabType =
   | 'realworld';
 
 export type EducationalMode = 'developer' | 'beginner' | 'gate';
-export type MobileView = 'editor' | 'visualizer' | 'telemetry';
+export type MobileView = 'editor' | 'visualizer' | 'flowgraph' | 'telemetry';
 
 interface ExecutionStoreState {
   sourceCode: string;
