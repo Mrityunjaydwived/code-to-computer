@@ -154,5 +154,27 @@ graph TD
 
 ---
 
+## 🚀 CI/CD Pipeline & GitHub Deployment
+
+The repository includes an automated GitHub Actions CI/CD pipeline (`.github/workflows/deploy.yml`) that automatically tests, builds, and deploys the application to **GitHub Pages** on every push to the `main` branch.
+
+### How to Deploy to Your GitHub:
+
+1. **Create a new repository** on [GitHub](https://github.com/new) (e.g. named `code-to-computer`).
+2. **Link your repository and push**:
+   ```bash
+   git remote add origin https://github.com/<YOUR_USERNAME>/<YOUR_REPOSITORY>.git
+   git push -u origin main
+   ```
+3. **Enable GitHub Pages**:
+   - In your GitHub repository, go to **Settings** → **Pages**.
+   - Under **Build and deployment** → **Source**, select **GitHub Actions**.
+4. **Automated Deployment**:
+   - The CI/CD pipeline will automatically run all unit tests, compile the bundle, and deploy to:
+     `https://<YOUR_USERNAME>.github.io/<YOUR_REPOSITORY>/`
+
+---
+
 ## 📄 License
 MIT License. Built for educational computer science visualization.
+
